@@ -12,8 +12,12 @@ def main():
     except ValueError as e:
       print(f"Invalid input: Type the pozition of the piece you want to move, followed by where do you want to move it. (ex: a2 a3)")
       continue
-    game.move_piece(at, to)
-    print(game)
+    try:
+      game.move_piece(at, to)
+      print(game)
+    except ValueError:
+      print("invalid Move")
+      continue
     
 def validate_expression(input):
   if matches := re.match(r"^(?P<at>[a-h][1-8])\s(?P<to>[a-h][1-8])$", input):

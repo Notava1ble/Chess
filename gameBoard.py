@@ -4,7 +4,7 @@ class Game():
   def __init__(self):
     self.board = [
       [Rook("a1", "white"), Knight("b1", "white"), Bishop("c1", "white"), Queen("d1", "white"), King("e1", "white"), Bishop("f1", "white"), Knight("g1", "white"), Rook("h1", "white")], 
-      [Pawn("a2", "white"), Pawn("a2", "white"), Pawn("a2", "white"), Pawn("a2", "white"), Pawn("a2", "white"), Pawn("a2", "white"), Pawn("a2", "white"), Pawn("a2", "white")],
+      [Pawn("a2", "white"), Pawn("b2", "white"), Pawn("c2", "white"), Pawn("d2", "white"), Pawn("e2", "white"), Pawn("f2", "white"), Pawn("g2", "white"), Pawn("h2", "white")],
       ["", "", "", "", "", "", "", ""],
       ["", "", "", "", "", "", "", ""],
       ["", "", "", "", "", "", "", ""],
@@ -32,6 +32,16 @@ class Game():
   
   def move_piece(self, at, to):
     piece = self.board[int(at[1])-1][ord(at[0]) - ord('a')]
-    self.board[int(at[1])-1][ord(at[0]) - ord('a')] = ""
-    self.board[int(to[1])-1][ord(to[0]) - ord('a')] = piece
-    piece.position = to
+    if isinstance(piece, str):
+      raise ValueError
+    if to in piece.generate_potential_moves():
+      self.board[int(at[1])-1][ord(at[0]) - ord('a')] = ""
+      self.board[int(to[1])-1][ord(to[0]) - ord('a')] = piece
+      piece.position = to
+    else:
+      raise ValueError
+    
+    try:
+      piece.first_move = False
+    except Exception:
+      pass

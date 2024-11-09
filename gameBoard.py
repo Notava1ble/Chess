@@ -12,7 +12,7 @@ class Game():
       [Pawn("a7", "black"), Pawn("b7", "black"), Pawn("c7", "black"), Pawn("d7", "black"), Pawn("e7", "black"), Pawn("f7", "black"), Pawn("g7", "black"), Pawn("h7", "black")],
       [Rook("a8", "black"), Knight("b8", "black"), Bishop("c8", "black"), Queen("d8", "black"), King("e8", "black"), Bishop("f8", "black"), Knight("g8", "black"), Rook("h8", "black")],
     ]
-    self.turn = "White"
+    self.turn = "white"
     
   def __str__(self):
     result = []
@@ -34,10 +34,13 @@ class Game():
     piece = self.board[int(at[1])-1][ord(at[0]) - ord('a')]
     if isinstance(piece, str):
       raise ValueError
+    if self.turn != piece.color:
+      raise ValueError
     if to in piece.generate_potential_moves():
       self.board[int(at[1])-1][ord(at[0]) - ord('a')] = ""
       self.board[int(to[1])-1][ord(to[0]) - ord('a')] = piece
       piece.position = to
+      self.switch_turn()
     else:
       raise ValueError
     
@@ -45,3 +48,6 @@ class Game():
       piece.first_move = False
     except Exception:
       pass
+
+  def switch_turn(self):
+    self.turn = "white" if self.turn == "black" else "black"

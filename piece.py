@@ -24,8 +24,6 @@ class Pawn(Piece):
         capture_move_right,
         double_push,
       ]
-      
-      print(potential_moves)
     
       return potential_moves
     return []
